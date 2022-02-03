@@ -1,0 +1,18 @@
+Inlet Temp:  300.37246185269737 Outlet Temp:  905.018326621114
+347.4041668898256 603.0226891555272
+U bulk: 15.589111637993389
+Size of the n-tau data:  (604, 957)
+iter =  1,  omega = +535.99555167  +0.00481392j,  |domega| = 1.38e-01
+iter =  2,  omega = +535.85948164  +0.01265254j,  |domega| = 1.36e-01
+iter =  3,  omega = +535.85953401  +0.01260860j,  |domega| = 6.84e-05
+iter =  4,  omega = +535.85953400  +0.01260862j,  |domega| = 1.86e-08
+iter =  5,  omega = +535.85953400  +0.01260862j,  |domega| = 4.39e-10
+The mode frequency is:  (85.28469363963677+0.002006723499522634j)
+Computation time for this mode:  0:00:09.654273
+iter =  1,  omega = +1543.04810052  -0.03590650j,  |domega| = 1.94e-01
+iter =  2,  omega = +1542.84254049  -0.08035579j,  |domega| = 2.10e-01
+iter =  3,  omega = +1542.84209537  -0.07982323j,  |domega| = 6.94e-04
+iter =  4,  omega = +1542.84209587  -0.07982214j,  |domega| = 1.21e-06
+iter =  5,  omega = +1542.84209587  -0.07982213j,  |domega| = 4.24e-09
+The mode frequency is:  (245.55094596804705-0.012704087082219373j)
+Computation time for this mode:  0:00:07.062384
