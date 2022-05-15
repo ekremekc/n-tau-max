@@ -33,7 +33,7 @@ A = W * (H ) # m2 cross sectional area
 
 m_dot = 0.35 # kg/s
 U = m_dot / (rho_in * A) # m/s
-Q = 110000 # Watt
+Q = 500000 # Watt
 flame_location = 864 * 1e-3 #mm
 
 x_f = np.array([[flame_location, 0., 0.]])  # [m]

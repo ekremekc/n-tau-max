@@ -1,7 +1,7 @@
 
 from helmholtz_x.helmholtz_pkgx.active_flame_x import ActiveFlameNT
 
-from dolfinx.mesh import MeshTags, locate_entities
+from dolfinx.mesh import meshtags, locate_entities
 from mpi4py import MPI
 from helmholtz_x.helmholtz_pkgx.eigenvectors_x import normalize_eigenvector
 from helmholtz_x.helmholtz_pkgx.eigensolvers_x import pep_solver, fixed_point_iteration_ntau
@@ -30,7 +30,7 @@ def fl_subdomain_func(x, eps=1e-16):
 tdim = mesh.topology.dim
 marked_cells = locate_entities(mesh, tdim, fl_subdomain_func)
 fl = 0
-subdomains = MeshTags(mesh, tdim, marked_cells, np.full(len(marked_cells), fl, dtype=np.int32))
+subdomains = meshtags(mesh, tdim, marked_cells, np.full(len(marked_cells), fl, dtype=np.int32))
 
 # Define the boundary conditions
 
@@ -80,6 +80,7 @@ print("Computation time for this mode: ",(datetime.now()-before))
 
 targets = [150, 300]
 
+
 # for target in targets:
 
 #     from datetime import datetime
@@ -100,3 +101,14 @@ targets = [150, 300]
 #         xdmf.write_function(p)
 #     print("Computation time for this mode: ",(datetime.now()-before))
 
+
+### CALCULATION OF RAYLEIGH INDEX
+
+from dolfinx.fem import assemble_scalar, Function, FunctionSpace, form
+from ufl import dx
+tau_omega = Function(FunctionSpace(mesh, ("Lagrange", 1)))
+tau_omega.x.array[:] = np.exp(omega*1j*tau.x.array) # tau^{i* \omega * \tau}
+
+Rayleigh_Index = assemble_scalar(form(p*n*tau_omega*dx))
+
+print("Rayleigh_Index is: ", Rayleigh_Index)

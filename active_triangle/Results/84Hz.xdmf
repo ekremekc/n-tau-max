@@ -3,11 +3,11 @@
 <Xdmf Version="3.0" xmlns:xi="http://www.w3.org/2001/XInclude">
   <Domain>
     <Grid Name="Grid" GridType="Uniform">
-      <Topology TopologyType="Triangle" NumberOfElements="220162" NodesPerElement="3">
-        <DataItem Dimensions="220162 3" NumberType="Int" Format="HDF">84Hz.h5:/Mesh/Grid/topology</DataItem>
+      <Topology TopologyType="Triangle" NumberOfElements="125002" NodesPerElement="3">
+        <DataItem Dimensions="125002 3" NumberType="Int" Format="HDF">84Hz.h5:/Mesh/Grid/topology</DataItem>
       </Topology>
       <Geometry GeometryType="XY">
-        <DataItem Dimensions="111147 2" Format="HDF">84Hz.h5:/Mesh/Grid/geometry</DataItem>
+        <DataItem Dimensions="63302 2" Format="HDF">84Hz.h5:/Mesh/Grid/geometry</DataItem>
       </Geometry>
     </Grid>
     <Grid Name="Acoustic_Wave" GridType="Collection" CollectionType="Temporal">
@@ -15,10 +15,10 @@
         <xi:include xpointer="xpointer(/Xdmf/Domain/Grid[@GridType='Uniform'][1]/*[self::Topology or self::Geometry])" />
         <Time Value="0" />
         <Attribute Name="real_Acoustic_Wave" AttributeType="Scalar" Center="Node">
-          <DataItem Dimensions="111147 1" Format="HDF">84Hz.h5:/Function/real_Acoustic_Wave/0</DataItem>
+          <DataItem Dimensions="63302 1" Format="HDF">84Hz.h5:/Function/real_Acoustic_Wave/0</DataItem>
         </Attribute>
         <Attribute Name="imag_Acoustic_Wave" AttributeType="Scalar" Center="Node">
-          <DataItem Dimensions="111147 1" Format="HDF">84Hz.h5:/Function/imag_Acoustic_Wave/0</DataItem>
+          <DataItem Dimensions="63302 1" Format="HDF">84Hz.h5:/Function/imag_Acoustic_Wave/0</DataItem>
         </Attribute>
       </Grid>
     </Grid>

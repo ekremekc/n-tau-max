@@ -10,7 +10,7 @@ def geometry(file="MeshDir/triangle", fltk=False):
     gmsh.option.setNumber("General.Terminal", 1)
     gmsh.model.add(__name__)
 
-    lc = 1.5e-3 # 3e-3 
+    lc = 4e-3 # 3e-3 
 
     scaler = 1
     L = 1387*scaler  * 1e-3 #mm length of combustor default:1387mm
