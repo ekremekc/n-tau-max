@@ -6,7 +6,7 @@ from mpi4py import MPI
 from helmholtz_x.helmholtz_pkgx.eigenvectors_x import normalize_eigenvector
 from helmholtz_x.helmholtz_pkgx.eigensolvers_x import pep_solver, fixed_point_iteration_ntau
 from helmholtz_x.helmholtz_pkgx.passive_flame_x import PassiveFlame
-from helmholtz_x.geometry_pkgx.xdmf_utils import load_xdmf_mesh, write_xdmf_mesh
+from helmholtz_x.geometry_pkgx.xdmf_utils import load_xdmf_mesh, write_xdmf_mesh, XDMFReader
 from helmholtz_x.helmholtz_pkgx.dolfinx_utils import interpolator
 from triangle_geom import geometry
 
@@ -19,7 +19,10 @@ if MPI.COMM_WORLD.rank == 0:
     geometry(fltk=False)
 write_xdmf_mesh("MeshDir/triangle",dimension=2)
 # Read mesh 
-mesh, cell_tags, facet_tags = load_xdmf_mesh("MeshDir/triangle")                        
+geometry = XDMFReader("MeshDir/triangle")
+mesh, cell_tags, facet_tags = geometry.getAll()
+
+print("Number of cells: ",geometry.getNumberofCells())                    
 
 def fl_subdomain_func(x, eps=1e-16):
     x = x[0]
@@ -57,9 +60,19 @@ matrices.assemble_C()
 tau = interpolator(params.xs, params.ys, params.tt, mesh)
 n = interpolator(params.xs, params.ys, params.nn, mesh)
 
+from dolfinx.io import XDMFFile
+
+with XDMFFile(MPI.COMM_WORLD, "MeshDir/tau.xdmf", "w", encoding=XDMFFile.Encoding.HDF5 ) as xdmf:
+    xdmf.write_mesh(mesh)
+    xdmf.write_function(tau)
+
+with XDMFFile(MPI.COMM_WORLD, "MeshDir/n.xdmf", "w", encoding=XDMFFile.Encoding.HDF5 ) as xdmf:
+    xdmf.write_mesh(mesh)
+    xdmf.write_function(n)
+    
 from datetime import datetime
 before = datetime.now()
-target = 150 * 2 * np.pi
+target = 245 * 2 * np.pi # 150 * 2 * np.pi
 
 E = fixed_point_iteration_ntau(matrices, target, mesh, subdomains,
                     params.x_r, params.rho_in, params.Q, params.U,
@@ -70,7 +83,6 @@ omega, p = normalize_eigenvector(mesh, E, 0, degree=1, which='right')
 frequency = omega / (2 * np.pi)
 print("The mode frequency is: ",frequency)
 
-from dolfinx.io import XDMFFile
 p.name = "Acoustic_Wave"
 mode_name = "Results/" + str(int(frequency.real)) + "Hz.xdmf"
 with XDMFFile(MPI.COMM_WORLD, mode_name, "w", encoding=XDMFFile.Encoding.HDF5 ) as xdmf:
